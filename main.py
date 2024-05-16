@@ -2,7 +2,7 @@ import time
 import os
 import zipfile
 import dotenv
-from utils import startup_script, add_recursively, log
+from utils import startup_script, add_recursively, log, delete_old_files
 
 env_file = dotenv.find_dotenv()
 dotenv.load_dotenv(env_file)
@@ -24,6 +24,6 @@ for location in safes:
             log("Created instance of zip")
             for target in targets:
                 add_recursively(zf=zf, path=target)
-        clean_old_files(safes, int(os.getenv("DELETE_WHEN_REACH")))
+        delete_old_files(safes, int(os.getenv("DELETE_WHEN_REACH")))
     except Exception as e:
         log(f"An exception has occurred while trying to backup the necessary files ===> {str(e)}")
