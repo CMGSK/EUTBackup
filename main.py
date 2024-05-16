@@ -24,5 +24,6 @@ for location in safes:
             log("Created instance of zip")
             for target in targets:
                 add_recursively(zf=zf, path=target)
+        clean_old_files(safes, int(os.getenv("DELETE_WHEN_REACH")))
     except Exception as e:
         log(f"An exception has occurred while trying to backup the necessary files ===> {str(e)}")

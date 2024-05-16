@@ -55,6 +55,21 @@ def add_recursively(zf: zipfile.ZipFile, path: str):
         log(f"An exception has occurred in the previous process ===> {str(e)}")
 
 
+def delete_old_files(backups: list, max: int):
+    log("Deleting old backups...")
+    try:
+        for dir in backups:
+            log(f"Working on {dir}...")
+            if len(content := [(name, os.path.getmtime(name)) for name in os.listdir(dir)]) > max:
+                content = content.sort(key=lambda e: e[1])[:max]
+                for file in content:
+                    os.remove(file)
+                    log(f"Success.")
+        log("Deleted old backups")
+    except Exception as e:
+        log(f"An exception has occurred in the previous process ===> {str(e)}")
+
+
 def log(msg: str):
     with open("./logs/log.txt") as logfile:
         logfile.write(f"{datetime.datetime.now().strftime("%d/%m/%Y at %H:%M:%S")} -> {msg}")
